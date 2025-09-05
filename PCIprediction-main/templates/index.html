@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavement PCI Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Pavement PCI Prediction</h1>
+            <p>Enter the road and pavement details below to predict PCI.</p>
+        </div>
+
+        <div class="form-container">
+            <form id="predictionForm" class="form-grid">
+                {% set csv_fields = [
+                    "Part_length",
+                    "Carriageway width in m.",
+                    "Year of construction /upgradation",
+                    "Study Stretch Chainage",
+                    "Avg Rain fall",
+                    "Age of Pavement during Evalution Years ",
+                    "MDD",
+                    "OMC",
+                    "LL",
+                    "PL",
+                    "PI",
+                    "CBR",
+                    "SCI",
+                    "SN",
+                    "MSN",
+                    "CVPD",
+                    "evalution_year",
+                    "evalution_month",
+                    "evalution_quarter"
+                ] %}
+                {% for field in csv_fields %}
+                <div class="form-group">
+                    <label for="{{ field }}">{{ field | upper }}</label>
+                    <input type="number" step="any" id="{{ field }}" name="{{ field }}" required>
+                </div>
+                {% endfor %}
+            </form>
+
+            <button type="button" class="predict-btn" onclick="makePrediction()">Predict PCI</button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Predicting...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <h3>Predicted PCI</h3>
+                <div class="result-value" id="resultValue"></div>
+                <h3 style="margin-top:20px; text-align:center;">Entered Values (CSV Order)</h3>
+                <div class="table-wrapper">
+                    <table class="inputs-table" id="inputsTable">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
